@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IC7 Academy - Qualificação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0A0D2B 0%, #1a1d3b 50%, #0A0D2B 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .gradient-bg::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255, 199, 0, 0.1) 0%, transparent 70%);
+      top: -200px;
+      right: -200px;
+      animation: float 20s ease-in-out infinite;
+    }
+    
+    .gradient-bg::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 199, 0, 0.08) 0%, transparent 70%);
+      bottom: -150px;
+      left: -150px;
+      animation: float 15s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, 30px) scale(1.1); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    .slide-up {
+      animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .input-field {
+      transition: all 0.3s ease;
+      background: rgba(26, 29, 59, 0.6);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 199, 0, 0.2);
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: #FFC700;
+      background: rgba(26, 29, 59, 0.8);
+      box-shadow: 0 0 0 4px rgba(255, 199, 0, 0.1);
+    }
+    
+    .option-btn {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(26, 29, 59, 0.6);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 199, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .option-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 199, 0, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .option-btn:hover::before {
+      left: 100%;
+    }
+    
+    .option-btn:hover {
+      border-color: #FFC700;
+      background: rgba(255, 199, 0, 0.15);
+      transform: translateX(10px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(255, 199, 0, 0.2);
+    }
+    
+    .option-btn.selected {
+      border-color: #FFC700;
+      background: rgba(255, 199, 0, 0.25);
+      box-shadow: 0 8px 30px rgba(255, 199, 0, 0.3);
+    }
+    
+    .progress-bar {
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(90deg, #FFC700 0%, #FFD633 100%);
+      box-shadow: 0 0 20px rgba(255, 199, 0, 0.5);
+    }
+    
+    .pulse-btn {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(255, 199, 0, 0.7),
+                    0 8px 30px rgba(255, 199, 0, 0.3);
+      }
+      50% { 
+        box-shadow: 0 0 0 20px rgba(255, 199, 0, 0),
+                    0 8px 30px rgba(255, 199, 0, 0.3);
+      }
+    }
+    
+    .checkmark {
+      animation: checkmark 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    @keyframes checkmark {
+      0% { transform: scale(0) rotate(-45deg); }
+      50% { transform: scale(1.1) rotate(5deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    
+    .glass-card {
+      background: rgba(26, 29, 59, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 199, 0, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    
+    .glow-text {
+      text-shadow: 0 0 20px rgba(255, 199, 0, 0.5);
+    }
+    
+    .submit-btn {
+      background: linear-gradient(135deg, #FFC700 0%, #FFD633 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #FFD633 0%, #FFE066 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(255, 199, 0, 0.4);
+    }
+    
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full w-full gradient-bg text-white overflow-auto">
+  <div id="app" class="min-h-full w-full flex flex-col relative z-10"><!-- Progress Bar -->
+   <div class="w-full bg-[#1a1d3b] h-1.5 fixed top-0 left-0 z-50">
+    <div id="progress" class="progress-bar h-full" style="width: 0%"></div>
+   </div><!-- Main Content -->
+   <div class="flex-1 flex flex-col items-center justify-center px-4 py-20 w-full">
+    <div class="w-full max-w-2xl"><!-- Logo Header -->
+     <div class="text-center mb-10 fade-in">
+      <div class="mb-3"><span id="form-title" class="text-3xl font-bold text-[#FFC700] glow-text tracking-tight">Consultoria IC7 Platinum</span>
+      </div>
+      <p id="form-subtitle" class="text-gray-300 text-base font-light">Preencha o formulário abaixo para começar sua jornada</p>
+     </div><!-- Contact Form (Initial Step) -->
+     <div id="contact-form" class="glass-card rounded-3xl p-8 md:p-10 slide-up">
+      <div class="text-center mb-8">
+       <h2 class="text-2xl font-bold text-white mb-2">Vamos nos conhecer!</h2>
+       <p class="text-gray-400 text-sm">Precisamos de algumas informações básicas</p>
+      </div>
+      <form id="initial-form" class="space-y-6">
+       <div><label for="nome" class="block text-sm font-medium text-gray-300 mb-2"> Seu nome completo * </label> <input type="text" id="nome" name="nome" required class="input-field w-full px-5 py-4 rounded-xl text-white placeholder-gray-500" placeholder="Ex: João Silva">
+       </div>
+       <div><label for="empresa" class="block text-sm font-medium text-gray-300 mb-2"> Nome da sua empresa * </label> <input type="text" id="empresa" name="empresa" required class="input-field w-full px-5 py-4 rounded-xl text-white placeholder-gray-500" placeholder="Ex: Minha Loja LTDA">
+       </div>
+       <div><label for="telefone" class="block text-sm font-medium text-gray-300 mb-2"> WhatsApp (com DDD) * </label> <input type="tel" id="telefone" name="telefone" required class="input-field w-full px-5 py-4 rounded-xl text-white placeholder-gray-500" placeholder="Ex: (11) 99999-9999">
+       </div><button type="submit" class="submit-btn w-full py-5 rounded-xl text-[#0A0D2B] font-bold text-lg"> Continuar para as perguntas <span class="inline-block ml-2">→</span> </button>
+      </form>
+     </div><!-- Question Container -->
+     <div id="question-container" class="hidden"><!-- Questions will be rendered here -->
+     </div><!-- Success Screen -->
+     <div id="success-screen" class="hidden text-center fade-in">
+      <div class="mb-10"><img src="https://lh3.googleusercontent.com/d/1zgzNmXLGt584KsOnlypVUhZ2DjtFan9m" alt="IC7 Academy Logo" class="mx-auto h-40 w-auto object-contain checkmark" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='flex';">
+       <div id="fallback-logo" class="hidden justify-center items-center">
+        <svg class="w-32 h-32 text-[#FFC700] checkmark" viewbox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="3" /> <text x="50" y="60" font-size="28" font-weight="bold" fill="currentColor" text-anchor="middle">
+          IC7
+         </text>
+        </svg>
+       </div>
+      </div>
+      <div class="glass-card rounded-3xl p-10 mb-10">
+       <div class="w-20 h-20 bg-[#FFC700] rounded-full flex items-center justify-center mx-auto mb-8 checkmark">
+        <svg class="w-10 h-10 text-[#0A0D2B]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+        </svg>
+       </div>
+       <h2 class="text-3xl font-bold text-white mb-4">Formulário Enviado!</h2>
+       <p id="final-message" class="text-lg text-gray-300 leading-relaxed font-light">Obrigado! Clique no botão 'Quero ser Platinum' e prepare-se para subir de nível no Mercado Livre!</p>
+      </div><a href="https://api.whatsapp.com/send/?phone=18996944800&amp;text&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer" id="whatsapp-btn" class="inline-flex items-center justify-center gap-4 bg-[#FFC700] text-[#0A0D2B] font-bold text-xl px-10 py-6 rounded-full pulse-btn hover:bg-[#FFD633] transition-colors">
+       <svg class="w-7 h-7" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+       </svg><span id="cta-text">Quero ser Platinum!</span> </a>
+     </div>
+    </div>
+   </div><!-- Loading Overlay -->
+   <div id="loading-overlay" class="hidden fixed inset-0 bg-[#0A0D2B] bg-opacity-95 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div class="text-center">
+     <div class="w-16 h-16 border-4 border-[#FFC700] border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+     <p class="text-[#FFC700] text-lg font-medium">Enviando suas respostas...</p>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      form_title: 'Consultoria IC7 Platinum',
+      form_subtitle: 'Preencha o formulário abaixo para começar sua jornada',
+      final_message: "Obrigado! Clique no botão 'Quero ser Platinum' e prepare-se para subir de nível no Mercado Livre!",
+      button_text: 'Quero ser Platinum!',
+      primary_color: '#FFC700',
+      background_color: '#0A0D2B',
+      text_color: '#FFFFFF'
+    };
+
+    const questions = [
+      {
+        id: 'nivel_mercado_livre',
+        question: 'Qual seu nível atual no Mercado Livre?',
+        options: ['Loja Oficial', 'Platinum', 'Gold', 'Prata', 'Ainda não vendo']
+      },
+      {
+        id: 'tempo_vendendo',
+        question: 'Há quanto tempo você vende online?',
+        options: ['Menos de 6 meses', 'De 6 meses a 1 ano', 'De 1 a 3 anos', 'Mais de 3 anos']
+      },
+      {
+        id: 'tamanho_equipe',
+        question: 'Quantas pessoas trabalham com você hoje?',
+        options: ['Só eu', 'De 2 a 5 pessoas', 'De 6 a 10 pessoas', 'Mais de 10']
+      },
+      {
+        id: 'investe_ads',
+        question: 'Você já investe em mídia paga (ADS)?',
+        options: ['Sim, com frequência', 'Às vezes', 'Ainda não investi', 'Quero aprender a investir certo']
+      },
+      {
+        id: 'maior_dificuldade',
+        question: 'Sua maior dificuldade hoje?',
+        options: ['Escalar o faturamento', 'Gerenciar equipe e processos', 'Criar anúncios que vendem', 'Precificar corretamente', 'Entender o algoritmo do Mercado Livre']
+      },
+      {
+        id: 'atrai_consultoria',
+        question: 'O que mais te atrai na consultoria IC7 Platinum?',
+        options: ['Acompanhamento estratégico', 'Acesso a especialistas', 'Diagnóstico personalizado', 'Plano de ação com foco em crescimento', 'Quero sair do lugar e escalar']
+      },
+      {
+  id: 'necessidade_atual',
+  question: 'Qual dessas opções mais representa sua necessidade hoje?',
+  options: [
+    'Ter um time de especialistas multicanal executando os processos online',
+    'Ter tempo para focar apenas no crescimento da empresa',
+    'Não precisar contratar especialistas caros e sem experiência comprovada',
+    'Contar com um especialista responsável pelos anúncios (ADS)'
+  ]
+      },
+      {
+        id: 'pronto_investir',
+        question: 'Você está pronto para investir no crescimento do seu negócio com apoio de especialistas?',
+        options: ['Sim, quero crescer com consistência', 'Tenho interesse, quero entender melhor', 'Ainda não estou pronto(a), mas penso nisso']
+      }
+    ];
+
+    let currentQuestion = 0;
+    let answers = {};
+    let contactInfo = {};
+
+    // Handle initial form submission
+    document.getElementById('initial-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const nome = document.getElementById('nome').value.trim();
+      const empresa = document.getElementById('empresa').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      
+      if (!nome || !empresa || !telefone) {
+        return;
+      }
+      
+      contactInfo = { nome, empresa, telefone };
+      
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('question-container').classList.remove('hidden');
+      renderQuestion();
+    });
+
+    function updateProgress() {
+      const totalSteps = questions.length + 1;
+      const currentStep = currentQuestion + 2;
+      const progress = (currentStep / totalSteps) * 100;
+      document.getElementById('progress').style.width = `${progress}%`;
+    }
+
+    function renderQuestion() {
+      const container = document.getElementById('question-container');
+      const q = questions[currentQuestion];
+      
+      container.innerHTML = `
+        <div class="glass-card rounded-3xl p-8 md:p-10 slide-up">
+          <div class="mb-3 text-[#FFC700] text-sm font-semibold tracking-wider uppercase">
+            Pergunta ${currentQuestion + 1} de ${questions.length}
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold mb-10 leading-tight text-white">${q.question}</h2>
+          <div class="space-y-4">
+            ${q.options.map((option, index) => `
+              <button 
+                onclick="selectOption('${option.replace(/'/g, "\\'")}')"
+                class="option-btn w-full text-left px-6 py-5 rounded-2xl text-white flex items-center gap-5 group"
+              >
+                <span class="w-10 h-10 rounded-full border-2 border-[#FFC700] flex items-center justify-center text-[#FFC700] text-base font-bold group-hover:bg-[#FFC700] group-hover:text-[#0A0D2B] transition-all shrink-0">
+                  ${String.fromCharCode(65 + index)}
+                </span>
+                <span class="flex-1 font-medium">${option}</span>
+                <svg class="w-6 h-6 text-[#FFC700] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      
+      updateProgress();
+    }
+
+    function selectOption(option) {
+      const q = questions[currentQuestion];
+      answers[q.id] = option;
+      
+      const buttons = document.querySelectorAll('.option-btn');
+      buttons.forEach(btn => {
+        if (btn.textContent.includes(option)) {
+          btn.classList.add('selected');
+        }
+      });
+      
+      setTimeout(() => {
+        if (currentQuestion < questions.length - 1) {
+          currentQuestion++;
+          renderQuestion();
+        } else {
+          submitForm();
+        }
+      }, 400);
+    }
+
+    async function submitForm() {
+      const loadingOverlay = document.getElementById('loading-overlay');
+      loadingOverlay.classList.remove('hidden');
+      
+      try {
+        emailjs.init('EBdoEf19lUeSPHR_P');
+        
+        const templateParams = {
+          from_name: contactInfo.nome,
+          empresa: contactInfo.empresa,
+          telefone: contactInfo.telefone,
+          nivel_mercado_livre: answers.nivel_mercado_livre || 'Não respondido',
+          tempo_vendendo: answers.tempo_vendendo || 'Não respondido',
+          tamanho_equipe: answers.tamanho_equipe || 'Não respondido',
+          investe_ads: answers.investe_ads || 'Não respondido',
+          maior_dificuldade: answers.maior_dificuldade || 'Não respondido',
+          atrai_consultoria: answers.atrai_consultoria || 'Não respondido',
+          pronto_investir: answers.pronto_investir || 'Não respondido',
+          data_envio: new Date().toLocaleString('pt-BR')
+        };
+        
+        const response = await emailjs.send(
+          'service_8n1dc49', 
+          'template_mq0x9rk', 
+          templateParams
+        );
+        
+        if (response.status === 200) {
+          console.log('✅ Email enviado com sucesso!', response);
+        }
+      } catch (error) {
+        console.error('❌ Erro ao enviar email:', error);
+      }
+      
+      loadingOverlay.classList.add('hidden');
+      showSuccess();
+    }
+
+    function showSuccess() {
+      document.getElementById('question-container').classList.add('hidden');
+      document.getElementById('success-screen').classList.remove('hidden');
+      document.getElementById('progress').style.width = '100%';
+    }
+
+    async function onConfigChange(config) {
+      const formTitle = document.getElementById('form-title');
+      const formSubtitle = document.getElementById('form-subtitle');
+      const finalMessage = document.getElementById('final-message');
+      const ctaText = document.getElementById('cta-text');
+      
+      if (formTitle) {
+        formTitle.textContent = config.form_title || defaultConfig.form_title;
+      }
+      if (formSubtitle) {
+        formSubtitle.textContent = config.form_subtitle || defaultConfig.form_subtitle;
+      }
+      if (finalMessage) {
+        finalMessage.textContent = config.final_message || defaultConfig.final_message;
+      }
+      if (ctaText) {
+        ctaText.textContent = config.button_text || defaultConfig.button_text;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['form_title', config.form_title || defaultConfig.form_title],
+        ['form_subtitle', config.form_subtitle || defaultConfig.form_subtitle],
+        ['final_message', config.final_message || defaultConfig.final_message],
+        ['button_text', config.button_text || defaultConfig.button_text]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    document.getElementById('progress').style.width = `${(1 / (questions.length + 1)) * 100}%`;
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bb43089c00aa42d',t:'MTc2Nzk2NDM4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
